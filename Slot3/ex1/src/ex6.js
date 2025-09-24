@@ -17,3 +17,4 @@ const sortedCompanies = [...companies].sort((a, b) => a.end - b.end);
 sortedCompanies.slice(0, 3).forEach(c => {
 	console.log(`${c.name} - ${c.end}`);
 });
+

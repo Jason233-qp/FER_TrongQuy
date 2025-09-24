@@ -1,6 +1,6 @@
 //double(7)
 const double = (x) => x * 2;
-console.log(double(7)); // Should print 14
+console.log(double(7)); 
 
 //Cách viết khác
 //Có { } thì phải có return
