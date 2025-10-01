@@ -1,12 +1,12 @@
 export function Exercise8() {
     /*Mục tiêu: Tính tổng, min, max, và đếm theo nhóm bằng reduce.
     Yêu cầu:
-    •	Với ages (mảng số), tính:
-    o	total, min, max
-    o	buckets: { teen: count(13–19), adult: count(>=20) }
-    •	In dạng:
-    o	Total: X, Min: Y, Max: Z
-    o	Buckets: { teen: a, adult: b }
+    -	Với ages (mảng số), tính:
+    -	total, min, max
+    -	buckets: { teen: count(13–19), adult: count(>=20) }
+    -	In dạng:
+    -	Total: X, Min: Y, Max: Z
+    -   Buckets: { teen: a, adult: b }
     */
     const ages = [33, 12, 20, 16, 5, 54, 21, 44, 61, 13, 15, 45, 25, 64, 32];
     const result = ages.reduce((acc, age) => {
