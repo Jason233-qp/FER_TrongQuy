@@ -1,0 +1,19 @@
+/* Cam đậm cho header */
+.bg-brand-orange {
+  background-color: #e19436; /* bạn có thể chỉnh #e29538/#df912f tùy ý */
+}
+
+
+.bg-brand-orange-weak {
+  background-color: #e19436;
+}
+
+/* Màu link trên nền cam cho dễ đọc */
+.bg-brand-orange .nav-link {
+  color: #fff !important;
+  opacity: 0.95;
+}
+.bg-brand-orange .nav-link:hover {
+  text-decoration: underline;
+  opacity: 1;
+}
