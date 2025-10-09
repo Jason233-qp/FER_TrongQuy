@@ -59,7 +59,11 @@ export default function Navbar() {
               <textarea className="form-control" rows="4" placeholder="Please write your comment"></textarea>
             </div>
           </div>
-          <button className="btn btn-warning px-4">Send Message</button>
+          <div className="row mb-3">
+            <div className="col-md-5">
+              <button className="btn btn-warning px-4">Send Message</button>
+            </div>
+          </div>
         </form>
       </section>
     </div>
