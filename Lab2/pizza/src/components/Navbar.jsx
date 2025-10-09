@@ -5,7 +5,7 @@ export default function Navbar() {
     <div className="navbar-content">
       {/* MENU SECTION */}
       <section className="menu-section">
-        <h2 className="text-center mb-4">Our Menu</h2>
+        <h2 className="text-start mb-4">Our Menu</h2>
         <div className="row justify-content-center">
           <PizzaCard
             name="Margherita Pizza"

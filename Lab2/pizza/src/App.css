@@ -131,3 +131,10 @@
   background-color: #ffc107;
   color: black;
 }
+
+/*màu background thành màu đen*/
+body {
+  background-color: #000000;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}

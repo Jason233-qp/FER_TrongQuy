@@ -1,0 +1,28 @@
+.hover-card {
+  transition: transform 0.3s ease;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.hover-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.card-text {
+  color: #333;
+}
+
+.me-1 {
+  margin-right: 0.5rem !important;
+}
+
+.badge-info, .bg-info {
+  background-color: #17a2b8 !important;
+  color: #fff !important;
+}

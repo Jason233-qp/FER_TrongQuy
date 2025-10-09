@@ -1,0 +1,220 @@
+/* BANNER CHÍNH */
+.banner {
+  background-color: #EACDAD;
+  padding: 0;
+}
+
+/* Thanh điều hướng nằm trong banner */
+.banner-nav {
+  background-color: #f9f4ec; /* beige */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Logo + tiêu đề */
+.banner-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.banner-logo {
+  height: 40px;
+}
+
+.banner-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #ff6600;
+}
+
+/* Menu điều hướng */
+.banner-menu {
+  list-style: none;
+  display: flex;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+}
+
+.banner-menu li {
+  font-size: 14px;
+  color: #555;
+  cursor: pointer;
+}
+
+.banner-menu li:hover {
+  color: #ff6600;
+}
+
+/* Ô tìm kiếm */
+.banner-search {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.banner-search label {
+  font-size: 14px;
+  color: #555;
+}
+
+.banner-search input {
+  padding: 4px 6px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.banner-image {
+  background-color: #f7931e; /* nền cam */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 0;
+}
+
+.banner-image img {
+  max-width: 800px;     /* ảnh nhỏ lại */
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+/* PHẦN STUDENTS DETAIL */
+.students-section {
+  padding: 24px;
+  background-color: #fff;
+}
+
+/* Breadcrumb */
+.breadcrumb-bar {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+/* Tiêu đề trang */
+.page-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 24px;
+}
+
+/* Grid danh sách sinh viên */
+.students-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  justify-items: center;
+}
+
+
+/* Card sinh viên */
+.student-card {
+  background-color: #f9f4ec;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+/* Ảnh sinh viên */
+.student-card {
+  background-color: #f9f4ec;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  width: 100%;
+  aspect-ratio: 1 / 1; /* hình vuông: chiều rộng = chiều cao */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Radio điểm danh */
+.attendance-options {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 12px 0;
+}
+
+.attendance-options label {
+  font-size: 14px;
+  color: #333;
+}
+
+/* Nút Submit */
+.submit-button {
+  background-color: #f7931e;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.submit-button:hover {
+  background-color: #e86f00;
+}
+
+/* FOOTER */
+.footer {
+  margin-top: 48px;
+  background-color: #f1e4d1;
+  padding: 24px;
+  text-align: center;
+  border-top: 1px solid #ccc;
+}
+
+.footer-content h3 {
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.footer-content p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+.social-icons {
+  margin-top: 12px;
+  font-size: 18px;
+  color: #ff6600;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.footer-bottom {
+  margin-top: 16px;
+  font-size: 13px;
+  color: #777;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .students-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .student-photo {
+    max-width: 140px;
+  }
+
+  .attendance-options {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
