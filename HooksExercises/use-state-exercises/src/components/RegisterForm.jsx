@@ -20,12 +20,30 @@ class RegisterForm extends Component {
 
   handleChange = (e) => {
     const { name, value } = e.target;
-    this.setState((prevState) => ({
-      formData: {
+    this.setState((prevState) => {
+      const newFormData = {
         ...prevState.formData,
         [name]: value,
-      },
-    }));
+      };
+      
+      const newErrors = {
+        ...prevState.errors,
+        [name]: this.validateField(name, value, newFormData),
+      };
+
+      if (name === 'password') {
+        newErrors.confirmPassword = this.validateField(
+          'confirmPassword',
+          newFormData.confirmPassword,
+          newFormData
+        );
+      }
+
+      return {
+        formData: newFormData,
+        errors: newErrors,
+      };
+    });
   };
 
   validateField = (name, value, formData) => {
@@ -45,10 +63,9 @@ class RegisterForm extends Component {
         break;
 
       case 'password':
-        if (
-          !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/.test(value)
-        ) {
-          error = 'Password ≥ 8 ký tự, gồm chữ hoa, chữ thường, số, ký tự đặc biệt';
+        // Yêu cầu: ít nhất 8 ký tự, có chữ thường, chữ hoa, số và một ký tự đặc biệt (bất kỳ ký tự không phải chữ/số)
+        if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/.test(value)) {
+          error = 'Password ≥ 8 ký tự, gồm chữ hoa, chữ thường, số và ký tự đặc biệt';
         }
         break;
 
