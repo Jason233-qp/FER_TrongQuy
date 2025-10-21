@@ -6,6 +6,8 @@ import './App.css'; // Nếu bạn có CSS tùy chỉnh
 import CounterComponent from './components/CounterComponent';
 import LightSwitchComponent from './components/LightSwitchComponent';
 import QuestionBank from './components/QuestionBank';
+import LoginForm from './components/LoginForm';
+import SignUpForm from './components/SignUpForm'; // Thêm dòng này
 
 function App() {
   const sectionStyle = {
@@ -32,18 +34,28 @@ function App() {
       </h1>
 
       <div style={sectionStyle}>
-        <h2 style={titleStyle}>Exercise 1: Counter</h2>
+        <h2 style={titleStyle}>Counter</h2>
         <CounterComponent />
       </div>
 
       <div style={sectionStyle}>
-        <h2 style={titleStyle}>Exercise 2: Light Switch</h2>
+        <h2 style={titleStyle}>Light Switch</h2>
         <LightSwitchComponent />
       </div>
 
       <div style={sectionStyle}>
-        <h2 style={titleStyle}>Exercise 3: Question Bank</h2>
+        <h2 style={titleStyle}>Question Bank</h2>
         <QuestionBank />
+      </div>
+
+      <div style={sectionStyle}>
+        <h2 style={titleStyle}>Login Form</h2>
+        <LoginForm />
+      </div>
+
+      <div style={sectionStyle}>
+        <h2 style={titleStyle}>Sign Up Form</h2>
+        <SignUpForm />
       </div>
     </div>
   );
