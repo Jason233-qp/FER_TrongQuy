@@ -6,6 +6,7 @@ import DashboardPage from '../pages/DashboardPage';
 import NotFoundPage from '../pages/NotFoundPage';
 import DetailPage from '../pages/DetailPage';     // ✅ Trang xem chi tiết
 import EditPage from '../pages/EditPage';         // ✅ Trang chỉnh sửa
+import AddPayment from '../pages/AddPayment';     // ✅ Trang thêm mới
 
 const PrivateRoute = ({ children }) => {
   const { isAuthenticated } = useAuth();
@@ -22,6 +23,15 @@ const AppRoutes = () => (
         element={
           <PrivateRoute>
             <DashboardPage />
+          </PrivateRoute>
+        }
+      />
+      {/* ✅ Route thêm mới thanh toán */}
+      <Route
+        path="/payments/add"
+        element={
+          <PrivateRoute>
+            <AddPayment />
           </PrivateRoute>
         }
       />

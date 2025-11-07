@@ -1,17 +1,32 @@
-import React from 'react';
-import { Table, Button, Spinner } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Table, Button, Spinner, Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { usePayments } from '../contexts/PaymentContext';
 import * as api from '../services/api';
 
 const PaymentTable = () => {
   const { state, dispatch } = usePayments();
-  const { filteredPayments, loading, totalAmount } = state;
+  const { filteredPayments, loading } = state;
   const navigate = useNavigate();
 
-  const handleDelete = async (id) => {
-    await api.deletePayment(id);
-    dispatch({ type: 'DELETE_PAYMENT', payload: id });
+  const [showModal, setShowModal] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+
+  const handleDeleteClick = (id) => {
+    setSelectedId(id);
+    setShowModal(true);
+  };
+
+  const confirmDelete = async () => {
+    await api.deletePayment(selectedId);
+    dispatch({ type: 'DELETE_PAYMENT', payload: selectedId });
+    setShowModal(false);
+    setSelectedId(null);
+  };
+
+  const cancelDelete = () => {
+    setShowModal(false);
+    setSelectedId(null);
   };
 
   if (loading) {
@@ -24,6 +39,15 @@ const PaymentTable = () => {
 
   return (
     <>
+      {/* ✅ Nút thêm payment */}
+      <Button
+        variant="success"
+        className="mb-3"
+        onClick={() => navigate('/payments/add')}
+      >
+        Add Payment
+      </Button>
+
       <Table striped bordered hover responsive>
         <thead>
           <tr>
@@ -66,7 +90,7 @@ const PaymentTable = () => {
                   <Button
                     size="sm"
                     variant="danger"
-                    onClick={() => handleDelete(p.id)}
+                    onClick={() => handleDeleteClick(p.id)}
                   >
                     Delete
                   </Button>
@@ -76,9 +100,22 @@ const PaymentTable = () => {
           )}
         </tbody>
       </Table>
-      <h5 className="text-end mt-3">
-        Total: {totalAmount.toLocaleString()} ₫
-      </h5>
+
+      {/* ✅ Modal xác nhận xóa */}
+      <Modal show={showModal} onHide={cancelDelete} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Xác nhận xóa</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Bạn có chắc muốn xóa khoản thanh toán này?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={cancelDelete}>
+            Hủy
+          </Button>
+          <Button variant="danger" onClick={confirmDelete}>
+            Xóa
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };
