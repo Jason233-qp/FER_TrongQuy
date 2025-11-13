@@ -37,7 +37,7 @@ const UserTable = ({ users, onView, onConfirmBan, onConfirmUnblock, currentUserI
             <tr key={user.id}>
               <td>{user.id}</td>
 
-              {/* Hiển thị avatar người dùng */}
+              { /* Hiển thị avatar người dùng */}
               <td className="text-center">
                 <Image
                   src={process.env.PUBLIC_URL + user.avatar}

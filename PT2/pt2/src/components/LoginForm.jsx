@@ -4,8 +4,26 @@ import { useAuth } from '../contexts/AuthContext';
 import ConfirmModal from './ConfirmModal';
 import { useNavigate } from 'react-router-dom'; // Thêm useNavigate để chuyển hướng
 
+/**
+ * LoginForm.jsx
+ * Đây là component xử lý form đăng nhập cho ứng dụng.
+ * Nó dùng `useReducer` để quản lý trạng thái form (giá trị các field + lỗi + trạng thái modal)
+ * và `useAuth` (AuthContext) để gọi action đăng nhập thực tế.
+ *
+ * Mục tiêu chỉnh sửa: thêm comment chi tiết cho từng phương thức/khối logic
+ * để bạn dễ đọc và hiểu cách hoạt động.
+ */
+
 // 1. Khởi tạo trạng thái ban đầu cho form
 
+/**
+ * initialFormState
+ * - formData: chứa các giá trị input hiện tại của form.
+ *   - identifier: có thể là username hoặc email (đầu vào do người dùng nhập)
+ *   - password: mật khẩu
+ * - errors: object chứa thông báo lỗi cho từng field (nếu có)
+ * - showSuccessModal: boolean để điều khiển modal thông báo đăng nhập thành công
+ */
 const initialFormState = {
   formData: {
     identifier: '', // username hoặc email
@@ -16,10 +34,23 @@ const initialFormState = {
 };
 
 // 2. Định nghĩa reducer cho form 
+/**
+ * formReducer
+ * - Là reducer quản lý trạng thái form dùng bởi useReducer.
+ * - Các action được hỗ trợ:
+ *   - SET_FIELD: cập nhật giá trị một trường trong formData
+ *   - SET_ERROR: gán thông báo lỗi cho một field
+ *   - CLEAR_ERROR: xóa lỗi cho 1 field cụ thể
+ *   - SET_ERRORS: set toàn bộ object lỗi (dùng khi validate toàn bộ form)
+ *   - SHOW_SUCCESS_MODAL / HIDE_SUCCESS_MODAL: điều khiển modal thành công
+ *   - RESET_FORM: reset về trạng thái ban đầu
+ *
+ * Lưu ý: reducer chỉ chịu trách nhiệm cập nhật state thuần túy.
+ */
 function formReducer(state, action) {
   switch (action.type) {
     case 'SET_FIELD':
-      // Cập nhật giá trị vào state.formData
+      // Cập nhật giá trị của một field trong formData
       return {
         ...state,
         formData: {
@@ -27,36 +58,47 @@ function formReducer(state, action) {
           [action.field]: action.value,
         },
       };
+
     case 'SET_ERROR':
-      // Cập nhật lỗi cho trường cụ thể
+      // Gán thông báo lỗi cho một field cụ thể
       return {
         ...state,
         errors: { ...state.errors, [action.field]: action.message },
       };
+
     case 'CLEAR_ERROR':
-        // Sửa lỗi: Xóa lỗi cho trường cụ thể
+      // Xóa lỗi cho field cụ thể (không hiệu ứng tới các lỗi khác)
       const { [action.field]: removed, ...restErrors } = state.errors;
       return {
         ...state,
         errors: restErrors,
       };
+
     case 'SET_ERRORS':
+      // Thay thế toàn bộ object lỗi (dùng sau khi validate toàn bộ form)
       return {
         ...state,
         errors: action.errors,
       };
+
     case 'SHOW_SUCCESS_MODAL':
+      // Hiển thị modal thành công
       return {
         ...state,
         showSuccessModal: true,
       };
+
     case 'HIDE_SUCCESS_MODAL':
+      // Ẩn modal thành công
       return {
         ...state,
         showSuccessModal: false,
       };
+
     case 'RESET_FORM':
+      // Reset về trạng thái ban đầu
       return initialFormState;
+
     default:
       return state;
   }
@@ -74,6 +116,13 @@ function LoginForm() {
   // 5. Validation helpers
   const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const isEmail = (v) => v.includes('@');
+
+  /**
+   * isEmail helper
+   * - kiểm tra nhanh xem chuỗi nhập vào chứa dấu '@' hay không
+   * - lưu ý: đây chỉ là kiểm tra nhanh để phân biệt identifier là email hay username,
+   *   còn kiểm tra định dạng chính xác dùng emailRe bên trên.
+   */
 
   // 6. Xử lý thay đổi input
   const handleChange = (e) => {
@@ -110,6 +159,20 @@ function LoginForm() {
     }
   };
 
+  /**
+   * handleChange
+   * - Hàm được gắn vào onChange của các input form.
+   * - Nhiệm vụ:
+   *   1. Cập nhật giá trị input vào state.formData thông qua action SET_FIELD.
+   *   2. Xóa lỗi auth chung (nếu có) khi người dùng bắt đầu nhập lại.
+   *   3. Thực hiện validation real-time cho từng field và cập nhật lỗi tương ứng
+   *      (SET_ERROR hoặc CLEAR_ERROR) để hiển thị feedback ngay lập tức.
+   *
+   * Các behavior cụ thể:
+   * - identifier: kiểm tra rỗng và nếu có chứa '@' thì kiểm tra regex emailRe
+   * - password: kiểm tra rỗng và tối thiểu 6 ký tự
+   */
+
   // 7. Validation form
   const validateForm = () => {
     const errors = {};
@@ -129,6 +192,19 @@ function LoginForm() {
 
     return errors;
   };
+
+  /**
+   * validateForm
+   * - Hàm validate toàn bộ form trước khi submit.
+   * - Trả về object dạng { fieldName: errorMessage }.
+   * - Được gọi trong handleSubmit; nếu object trả về không rỗng thì sẽ
+   *   ngăn form submit và hiển thị lỗi tương ứng.
+   *
+   * Edge cases:
+   * - Không cho phép identifier hoặc password rỗng
+   * - Nếu identifier có dạng email thì kiểm tra regex emailRe
+   * - Mật khẩu phải >= 6 ký tự
+   */
 
   // 8. Xử lý submit form
   const handleSubmit = async (e) => {
@@ -161,6 +237,21 @@ function LoginForm() {
       console.error('Login error:', err);
     }
   };
+
+  /**
+   * handleSubmit
+   * - Hàm xử lý gửi form khi người dùng bấm nút Login.
+   * - Luồng:
+   *   1. Ngăn hành vi submit mặc định của browser.
+   *   2. Clear lỗi chung từ AuthContext (nếu có).
+   *   3. Gọi validateForm và nếu có lỗi thì cập nhật state.errors và dừng xử lý.
+   *   4. Nếu hợp lệ, gọi `login` từ AuthContext với payload { usernameOrEmail, password }.
+   *   5. Dựa trên `result.success` để hiển thị modal thành công.
+   *
+   * Error handling:
+   * - Lỗi xác thực (ví dụ sai mật khẩu) được trả/đặt bởi AuthContext và sẽ hiển thị
+   *   thông qua `error` từ useAuth; ở đây chỉ log các lỗi mạng/không mong muốn.
+   */
   //9. Xử lý reset form
     const handleReset = () => { 
     //1. Reset form state về ban đầu
@@ -169,6 +260,14 @@ function LoginForm() {
     if (error) clearError();
   };
 
+  /**
+   * handleReset
+   * - Đặt lại toàn bộ form về trạng thái ban đầu.
+   * - Gọi `clearError` của AuthContext nếu có lỗi tồn tại để đảm bảo giao diện
+   *   không hiển thị lỗi cũ sau khi user nhấn Cancel.
+   * - Không thực hiện chuyển trang hay gọi API nào cả.
+   */
+
   // 10. Xử lý đóng modal thành công
   const handleCloseSuccessModal = () => {
     dispatch({ type: 'HIDE_SUCCESS_MODAL' });
@@ -176,6 +275,15 @@ function LoginForm() {
     // Chuyển hướng đến /home sau khi đóng modal[cite: 17]
     navigate('/home'); 
   };
+
+  /**
+   * handleCloseSuccessModal
+   * - Được gọi khi người dùng đóng modal thông báo đăng nhập thành công.
+   * - Hành động:
+   *   1. Ẩn modal (HIDE_SUCCESS_MODAL)
+   *   2. Reset form về trạng thái ban đầu (RESET_FORM)
+   *   3. Điều hướng về trang /home
+   */
 
   return (
     <Container className="mt-5">
